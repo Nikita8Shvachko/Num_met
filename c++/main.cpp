@@ -143,6 +143,28 @@ double computeActualError(double x, double y_true, double y_interp) {
     return abs(y_true - y_interp); // Просто возвращает модуль разности между значением функции и полинома
 }
 
+vector<double> computeInterpolationError(const vector<double> &x_nodes, const vector<double> &y_values, int num_nodes,
+                                         double (*func)(double)) {
+    vector<double> interpolation_error;
+
+    // Проходим по узлам интерполяции
+    for (int i = 0; i < num_nodes; ++i) {
+        // Вычисляем значение полинома в текущем узле
+        double y_interp = poly_newton_method_left_right(x_nodes, y_values, x_nodes[i]);
+        double error = abs(y_values[i] - y_interp);
+        interpolation_error.push_back(error);
+
+        // Если это не последний узел, вычисляем значение полинома в середине между текущим и следующим узлами
+        if (i < num_nodes - 1) {
+            double x_mid = 0.5 * (x_nodes[i] + x_nodes[i + 1]);
+            y_interp = poly_newton_method_left_right(x_nodes, y_values, x_mid);
+            error = abs(func(x_mid) - y_interp);
+            interpolation_error.push_back(error);
+        }
+    }
+
+    return interpolation_error;
+}
 
 void generateAndSaveDataset(const string &filename, double start, double end, int numPoints,
                             const vector<double> &(*gridFunction)(double, double, int)) {
@@ -208,29 +230,28 @@ int main() {
         // Для примера я закомментирую код для функции 2
 
         // Выбираем узлы интерполяции для функции 2
-        /*
         vector<double> nodes_function_2 = chooseNodes(start_function_2, end_function_2, num_nodes);
 
         // Вычисляем значения функции в узлах для функции 2
         vector<double> values_function_2 = computeFunctionValues(nodes_function_2, function_2);
 
         // Вычисляем значения полинома и фактические ошибки для функции 2
-        vector<double> polynomial_values_function_2 = computePolynomialValues(nodes_function_2, values_function_2, num_nodes);
+        vector<double> polynomial_values_function_2 = computePolynomialValues(nodes_function_2, values_function_2,
+                                                                              num_nodes);
 
         // Выводим результаты для функции 2 в файл
         outfile_function_2 << "Number of nodes: " << num_nodes << endl;
         outfile_function_2 << "Nodes for function 2: ";
-        for (double node : nodes_function_2) {
+        for (double node: nodes_function_2) {
             outfile_function_2 << node << " ";
         }
         outfile_function_2 << endl;
 
         outfile_function_2 << "Values of polynomial for function 2: ";
-        for (double value : polynomial_values_function_2) {
+        for (double value: polynomial_values_function_2) {
             outfile_function_2 << value << " ";
         }
         outfile_function_2 << endl;
-        */
 
         cout << endl;
     }
