@@ -222,15 +222,6 @@ Num_met_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 Num_met_SOURCE_DIR:STATIC=/Users/askoritan/programming/Num_Met
 
-//Value Computed by CMake
-clion_BINARY_DIR:STATIC=/Users/askoritan/programming/Num_Met/cmake-build-debug
-
-//Value Computed by CMake
-clion_IS_TOP_LEVEL:STATIC=ON
-
-//Value Computed by CMake
-clion_SOURCE_DIR:STATIC=/Users/askoritan/programming/Num_Met
-
 
 ########################
 # INTERNAL cache entries
