@@ -90,6 +90,18 @@ double poly_newton_method_right_left(const std::vector<double>& x, const std::ve
     return result;
 }
 
+vector<pair<double, double>> generateDataset(double start, double end, int numPoints) {
+    vector<pair<double, double>> dataset;
+
+    // Generate points using the function
+    for (int i = 0; i < numPoints; ++i) {
+        double x = start + (end - start) * i / (numPoints - 1);
+        double y = function_1(x); // Change this to function_2 if needed
+        dataset.push_back({x, y});
+    }
+
+    return dataset;
+}
 int main() {
 
 
