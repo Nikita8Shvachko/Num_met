@@ -4,5 +4,5 @@ project(Num_met)
 set(CMAKE_CXX_STANDARD 14)
 
 add_executable(Num_met
-        c++/main.cpp
+        lab_8/c++/main.cpp
         README.md)
