@@ -30,7 +30,7 @@ vector<double> chebyshev_grid(double start, double end, int numPoints) {
     return grid;
 }
 
-double poly_newton_method_left_right(const std::vector<double>& x, const std::vector<double>& y, double xi) {
+double poly_newton_method_left_right(const std::vector<double> &x, const std::vector<double> &y, double xi) {
     int n = x.size();
     double result = 0;
 
@@ -60,7 +60,7 @@ double poly_newton_method_left_right(const std::vector<double>& x, const std::ve
     return result;
 }
 
-double poly_newton_method_right_left(const std::vector<double>& x, const std::vector<double>& y, double xi) {
+double poly_newton_method_right_left(const std::vector<double> &x, const std::vector<double> &y, double xi) {
     int n = x.size();
     double result = 0;
 
@@ -90,18 +90,20 @@ double poly_newton_method_right_left(const std::vector<double>& x, const std::ve
     return result;
 }
 
-vector<pair<double, double>> generateDataset(double start, double end, int numPoints) {
+// Function to generate dataset for plotting
+vector<pair<double, double>> generateDataset(double start, double end, int numPoints, const vector<double> &(*gridFunction)(double, double, int)) {
     vector<pair<double, double>> dataset;
 
     // Generate points using the function
-    for (int i = 0; i < numPoints; ++i) {
-        double x = start + (end - start) * i / (numPoints - 1);
+    vector<double> xValues = gridFunction(start, end, numPoints);
+    for (double x: xValues) {
         double y = function_1(x); // Change this to function_2 if needed
         dataset.push_back({x, y});
     }
 
     return dataset;
 }
+
 int main() {
 
 
