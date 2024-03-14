@@ -184,10 +184,29 @@ void generateAndSaveDataset(const string &filename, double start, double end, in
     outputFile.close();
 }
 
+// Функция для сохранения данных в файл CSV
+void saveDataToCSV(const string &filename, const vector<double> &x_values, const vector<double> &y_values) {
+    ofstream outputFile(filename);
+    if (!outputFile.is_open()) {
+        cerr << "Error: Unable to open file " << filename << " for writing." << endl;
+        return;
+    }
+
+    // Записываем заголовок (x, y)
+    outputFile << "x, y" << endl;
+
+    // Записываем данные в формате CSV
+    for (size_t i = 0; i < x_values.size(); ++i) {
+        outputFile << x_values[i] << ", " << y_values[i] << endl;
+    }
+
+    outputFile.close();
+}
+
 int main() {
 // Интервал непрерывности для каждой функции
-    double start_function_1 = 0.1, end_function_1 = 10;
-    double start_function_2 = -10, end_function_2 = 10;
+    double start_function_1 = 9, end_function_1 = 1000;
+    double start_function_2 = -100000, end_function_2 = 100000;
 
     // Открываем файлы для записи результатов
     ofstream outfile_function_1("results_function_1.txt");
@@ -206,23 +225,8 @@ int main() {
         // Вычисляем значения функции в узлах для функции 1
         vector<double> values_function_1 = computeFunctionValues(nodes_function_1, function_1);
 
-        // Вычисляем значения полинома и фактические ошибки для функции 1
-        vector<double> polynomial_values_function_1 = computePolynomialValues(nodes_function_1, values_function_1,
-                                                                              num_nodes);
-
-        // Выводим результаты для функции 1 в файл
-        outfile_function_1 << "Number of nodes: " << num_nodes << endl;
-        outfile_function_1 << "Nodes for function 1: ";
-        for (double node: nodes_function_1) {
-            outfile_function_1 << node << " ";
-        }
-        outfile_function_1 << endl;
-
-        outfile_function_1 << "Values of polynomial for function 1: ";
-        for (double value: polynomial_values_function_1) {
-            outfile_function_1 << value << " ";
-        }
-        outfile_function_1 << endl;
+        // Сохраняем данные в файл CSV для функции 1
+        saveDataToCSV("function_1_data_" + to_string(num_nodes) + ".csv", nodes_function_1, values_function_1);
 
         // Перебираем узлы для функции 2, вычисляем значения функции и т.д.
         // То же самое нужно проделать для функции 2
@@ -235,23 +239,8 @@ int main() {
         // Вычисляем значения функции в узлах для функции 2
         vector<double> values_function_2 = computeFunctionValues(nodes_function_2, function_2);
 
-        // Вычисляем значения полинома и фактические ошибки для функции 2
-        vector<double> polynomial_values_function_2 = computePolynomialValues(nodes_function_2, values_function_2,
-                                                                              num_nodes);
-
-        // Выводим результаты для функции 2 в файл
-        outfile_function_2 << "Number of nodes: " << num_nodes << endl;
-        outfile_function_2 << "Nodes for function 2: ";
-        for (double node: nodes_function_2) {
-            outfile_function_2 << node << " ";
-        }
-        outfile_function_2 << endl;
-
-        outfile_function_2 << "Values of polynomial for function 2: ";
-        for (double value: polynomial_values_function_2) {
-            outfile_function_2 << value << " ";
-        }
-        outfile_function_2 << endl;
+        // Сохраняем данные в файл CSV для функции 2
+        saveDataToCSV("function_2_data_" + to_string(num_nodes) + ".csv", nodes_function_2, values_function_2);
 
         cout << endl;
     }
@@ -262,4 +251,3 @@ int main() {
 
     return 0;
 }
-
